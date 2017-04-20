@@ -1,0 +1,171 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+    >babar (v0.1.0)</a>
+</h1>
+<h4>CLI bar charts</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.babar">module babar</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.babar.babar">
+            function <span class="apidocSignatureSpan"></span>babar
+            <span class="apidocSignatureSpan">(points, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.babar" id="apidoc.module.babar">module babar</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.babar.babar" id="apidoc.element.babar.babar">
+        function <span class="apidocSignatureSpan"></span>babar
+        <span class="apidocSignatureSpan">(points, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">babar = function (points, options) {
+  var bkt, bktW, caption, color, diff, diffX, diffY, height, lbl, lblXI, lblXN, lblXW, lblY, lblYW, max, maxX, maxY, min, minX,
+minY, numBkts, out, u, uniqueX, v, width, x, xFractions, yFractions, _i, _j, _k, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6,
+_ref7;
+  if (options == null) {
+    options = {};
+  }
+  _ref3 = [options.caption, (_ref = options.color) != null ? _ref : &#x27;cyan&#x27;, (_ref1 = options.width) != null ? _ref1 : 80, (_ref2
+ = options.height) != null ? _ref2 : 15, options.xFractions, options.yFractions, options.minX, options.maxX, options.minY, options
+.maxY], caption = _ref3[0], color = _ref3[1], width = _ref3[2], height = _ref3[3], xFractions = _ref3[4], yFractions = _ref3[5],
+minX = _ref3[6], maxX = _ref3[7], minY = _ref3[8], maxY = _ref3[9];
+  if (color !== &#x27;ascii&#x27;) {
+    require(&#x27;colors&#x27;);
+  }
+  _ref4 = pointsMinMaxUniqueX(points), minX = _ref4.minX, maxX = _ref4.maxX, minY = _ref4.minY, maxY = _ref4.maxY, uniqueX = _ref4
+.uniqueX;
+  if (options.minX) {
+    minX = options.minX;
+  }
+  if (options.maxX) {
+    maxX = options.maxX;
+  }
+  if (options.minY) {
+    minY = options.minY;
+  }
+  if (options.maxY) {
+    maxY = options.maxY;
+  }
+  _ref5 = [maxX - minX, maxY - minY], diffX = _ref5[0], diffY = _ref5[1];
+  height -= 1 + !!caption;
+  if (yFractions == null) {
+    yFractions = minMax(0, 8, Math.log(height / diffY * 5) / Math.LN10);
+  }
+  lblYW = 1 + Math.max(minY.toFixed(yFractions).length, maxY.toFixed(yFractions).length);
+  width -= lblYW;
+  numBkts = Math.min(uniqueX, width - lblYW);
+  bktW = Math.floor((width - lblYW) / numBkts);
+  if (xFractions == null) {
+    xFractions = minMax(0, 8, Math.log(numBkts / diffX * 5) / Math.LN10);
+  }
+  _ref6 = bucketize(points, numBkts, minX, diffX, minY, maxY, height), bkt = _ref6.bkt, min = _ref6.min, max = _ref6.max, diff =
+_ref6.diff;
+  lblY = [];
+  for (v = _i = _ref7 = height - 1; _ref7 &#x3c;= 0 ? _i &#x3c;= 0 : _i &#x3e;= 0; v = _ref7 &#x3c;= 0 ? ++_i : --_i) {
+    lbl = (min + diff * v / (height - 1)).toFixed(yFractions);
+    lblY.unshift(lbl);
+  }
+  lblXW = 0;
+  for (u = _j = 0; 0 &#x3c;= numBkts ? _j &#x3c; numBkts : _j &#x3e; numBkts; u = 0 &#x3c;= numBkts ? ++_j : --_j) {
+    lbl = (minX + u * diffX / (numBkts - 1)).toFixed(xFractions);
+    lblXW = Math.max(lblXW, lbl.length);
+  }
+  lblXN = numBkts;
+  lblXI = 1;
+  while (lblXN * lblXW &#x3e;= numBkts * bktW) {
+    lblXN = Math.floor(lblXN / 2);
+    lblXI *= 2;
+  }
+  out = &#x27;&#x27;;
+  if (caption != null) {
+    out += tc(lblYW, &#x27; &#x27;);
+    out += color === &#x27;ascii&#x27; ? caption : caption.bold;
+    out += &#x27;\n&#x27;;
+  }
+  out += drawChart(height, lblY, lblYW, bkt, bktW, color) + &#x27;\n&#x27;;
+  out += tc(lblYW, &#x27; &#x27;);
+  for (x = _k = 0; 0 &#x3c;= lblXN ? _k &#x3c; lblXN : _k &#x3e; lblXN; x = 0 &#x3c;= lblXN ? ++_k : --_k) {
+    u = x * lblXI;
+    lbl = (minX + u * diffX / (numBkts - 1)).toFixed(xFractions);
+    out += lbl;
+    out += tc(bktW * lblXI - lbl.length, &#x27; &#x27;);
+  }
+  return out;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
